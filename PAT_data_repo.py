@@ -27,7 +27,7 @@ process.p = cms.Path(
 ## ------------------------------------------------------
 #
 #local globaltag
-#process.GlobalTag.connect = 'sqlite:GR_R_42_V25/export_GR_R_42_V25.db' 
+process.GlobalTag.connect = 'sqlite:GR_R_42_V25/export_GR_R_42_V25.db' 
 process.GlobalTag.globaltag = 'GR_R_42_V25::All' 
 
 #luminosity
