@@ -34,7 +34,7 @@ cd pattuples2010
 Run: 
 
 ```
-$pattuples2010> cmsRun PAT_data_repo.py 
+cmsRun PAT_data_repo.py 
 ```
 
 In this case the pattuples production was splitted in 6 executions per dataset (Mu and Electron);
