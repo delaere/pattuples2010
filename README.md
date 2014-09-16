@@ -17,8 +17,8 @@ cd CMSSW_4_2_8/src
 This step is needed each time you want to run the exercise.
 
 ```
-cd CMSSW_4_2_8/src
 source /cvmfs/cms.cern.ch/cmsset_default.sh
+cd CMSSW_4_2_8/src
 cmsenv
 ```
 
