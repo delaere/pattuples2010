@@ -1,5 +1,9 @@
 # Pattuples production from 2010 data
 
+The exercise produces tuples created following the Physics Analysis Toolkit (pattuples) from the 2010 AOD data.
+
+You need to work in a VM properly contextualized for CMS.
+
 In order to run the PAT_data_repo.py to generate the pattuples 
 you need to create a working area and source a proper CMS environment.
 
