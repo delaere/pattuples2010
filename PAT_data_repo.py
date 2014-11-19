@@ -42,8 +42,7 @@ process.p = cms.Path(
 #  parameters:
 ## ------------------------------------------------------
 #
-#local globaltag
-process.GlobalTag.connect = 'sqlite:GR_R_42_V25/export_GR_R_42_V25.db' 
+#globaltag
 process.GlobalTag.globaltag = 'GR_R_42_V25::All' 
 
 #luminosity
@@ -59,7 +58,7 @@ files2010data = FileUtils.loadListFromFile ('Electron2010data_500files_1.txt')
 readFiles = cms.untracked.vstring( *files2010data )
 process.source.fileNames = readFiles
 
-process.maxEvents.input = -1                                  ##  (e.g. -1 to run on all events)
-#process.maxEvents.input = 1000                               ##  (e.g. -1 to run on all events)
+#process.maxEvents.input = -1                                  ##  (e.g. -1 to run on all events)
+process.maxEvents.input = 1000                               ##  (e.g. -1 to run on all events)
 #output file
 process.out.fileName = 'file:///data/pattuples2010/Electron/Electron_PAT_data_500files_1.root' ##  (e.g. 'myTuple.root')
