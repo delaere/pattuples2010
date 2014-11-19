@@ -61,4 +61,4 @@ process.source.fileNames = readFiles
 #process.maxEvents.input = -1                                  ##  (e.g. -1 to run on all events)
 process.maxEvents.input = 1000                               ##  (e.g. -1 to run on all events)
 #output file
-process.out.fileName = 'file:///data/pattuples2010/Electron/Electron_PAT_data_500files_1.root' ##  (e.g. 'myTuple.root')
+process.out.fileName = 'file://Electron_PAT_data_500files_1.root' ##  (e.g. 'myTuple.root')
