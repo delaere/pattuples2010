@@ -14,6 +14,13 @@
 ## You should have received a copy of the GNU General Public License
 ## along with pattuples2010. If not, see <http://www.gnu.org/licenses/>.
 
+# command arguments
+import sys
+num_events       = sys.argv[-3]
+if (num_events == "all"): num_events = -1;
+input_file_list  = sys.argv[-2]
+output_file_name = sys.argv[-1]
+
 ## import skeleton process
 from PhysicsTools.PatAlgos.patTemplate_cfg import *
 
@@ -26,16 +33,15 @@ from PhysicsTools.PatAlgos.tools.coreTools import *
 removeMCMatching(process, ['All'])
 
 ## remove certain objects from the default sequence
-removeAllPATObjectsBut(process, ['Muons','Electrons'])
+# removeAllPATObjectsBut(process, ['Muons','Electrons'])
 
 # make sure to keep the created objects
-process.out.outputCommands += ['keep *_offlinePrimaryVertices_*_*']
-process.out.outputCommands += ['keep *_pat*_*_*',]
+process.out.outputCommands += ['keep *_cleanPat*_*_*', 'drop *_cleanPatPhotons_*_*', 'drop *_cleanPatTaus_*_*']
 
-## let it run
-process.p = cms.Path(
-   process.patDefaultSequence
-   )
+# reduce output
+process.load("FWCore.MessageService.MessageLogger_cfi")
+process.MessageLogger.cerr.FwkReport.reportEvery = 10000
+
 
 ## ------------------------------------------------------
 #  In addition you usually want to change the following
@@ -54,11 +60,25 @@ process.source.lumisToProcess.extend(myLumis)
 
 #input file
 import FWCore.Utilities.FileUtils as FileUtils
-files2010data = FileUtils.loadListFromFile ('Electron2010data_500files_1.txt') 
+files2010data = FileUtils.loadListFromFile (input_file_list) 
 readFiles = cms.untracked.vstring( *files2010data )
 process.source.fileNames = readFiles
 
-#process.maxEvents.input = -1                                  ##  (e.g. -1 to run on all events)
-process.maxEvents.input = 1000                               ##  (e.g. -1 to run on all events)
+#selectors
+process.LeptMerger = cms.EDProducer("CandViewMerger",
+                  src = cms.VInputTag( "cleanPatElectrons","cleanPatMuons")
+                  )
+
+process.LeptFilter = cms.EDFilter("CandViewCountFilter",
+                  src = cms.InputTag("LeptMerger"),
+                  # cut = cms.string('pt > 15 && (caloIso / pt) < 0.2'),
+                  cut = cms.string('pt > 15'),
+                  minNumber = cms.uint32(1),
+                  )
+
+## let it run
+process.p = cms.Path( process.patDefaultSequence * process.LeptMerger * process.LeptFilter )
+
+process.maxEvents.input = int(num_events)                               ##  (e.g. -1 to run on all events)
 #output file
-process.out.fileName = 'file://Electron_PAT_data_500files_1.root' ##  (e.g. 'myTuple.root')
+process.out.fileName = 'file://'+output_file_name ##  (e.g. 'myTuple.root')
