@@ -65,7 +65,7 @@ readFiles = cms.untracked.vstring( *files2010data )
 process.source.fileNames = readFiles
 
 # muon cleaning
-process.cleanPatMuons.finalcut = cms.string('isGlobalMuon & isTrackerMuon &'
+process.cleanPatMuons.finalCut = cms.string('isGlobalMuon & isTrackerMuon &'
                                             'innerTrack.numberOfValidHits > 10 &'
                                             'abs(dB) < 0.02 &' 
                                             'normChi2 < 10 &'
