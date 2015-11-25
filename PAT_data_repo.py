@@ -65,16 +65,14 @@ readFiles = cms.untracked.vstring( *files2010data )
 process.source.fileNames = readFiles
 
 # muon cleaning
-process.cleanPatMuons.cut = cms.string('isGlobalMuon & isTrackerMuon &'
-                    'innerTrack.hitPattern.trackerLayersWithMeasurement>8 &'  ## new requirement in 44X due to changes in tracking
-                    'userFloat("RelativePFIsolationDBetaCorr") < 0.2 &' # PF isolation
-                    'abs(dB) < 0.02 &'
-                    'normChi2 < 10 &'
-                    'innerTrack.hitPattern.numberOfValidPixelHits > 0 &'
-                    'numberOfMatchedStations>1 &'
-                    'globalTrack.hitPattern.numberOfValidMuonHits > 0 &'
-                    'pt>20 &'
-                    'abs(eta) < 2.4')
+process.cleanPatMuons.finalcut = cms.string('isGlobalMuon & isTrackerMuon &'
+                                            'innerTrack.numberOfValidHits > 10 &'
+                                            'abs(dB) < 0.02 &' 
+                                            'normChi2 < 10 &'
+                                            'innerTrack.hitPattern.numberOfValidPixelHits > 0 &'
+                                            'numberOfMatches>1 &'                                  # segments matched in at least two muon stations 
+                                            'globalTrack.hitPattern.numberOfValidMuonHits > 0 &'   # one muon hit matched to the global fit
+                                            'abs(eta) < 2.4')
 
 #selectors
 process.LeptMerger = cms.EDProducer("CandViewMerger",
